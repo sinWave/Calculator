@@ -77,32 +77,20 @@ Token Token_stream::get()
 Token_stream ts;
 double expression();
 
-double base()
-{
-	Token t = ts.get();
-	switch (t.kind) {
-	case '{':
-	{
-		double d = expression();
-		t = ts.get();
-		if (t.kind != '}') error("'}' expected");
-		return d;
-	}
-	case '#':
-		return t.value;
-	default:
-		error("base expected");
-	}
-}
-
 double primary()
 {
-	double d = base();
 	Token t = ts.get();
 		switch (t.kind) {
+		case '{':
+		{
+			double d = expression();
+			t = ts.get();
+			if (t.kind != '}') error("'}' expected");
+			return d;
+		}
 		case'(':
 		{
-			d = base();
+			double d = expression();
 			t = ts.get();
 			if (t.kind != ')') error("')' expected");
 			return d;
